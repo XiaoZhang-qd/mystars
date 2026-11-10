@@ -1,5 +1,7 @@
 # mystars
 
+欢迎来到我的star！
+
 <!-- STARS:START -->
 - [JosssphZhou/poki](https://github.com/JosssphZhou/poki) - Let AI agents operate a real iPhone. Local MCP server and agent, no jailbreak, no extra hardware.
 - [emexlab/emex64](https://github.com/emexlab/emex64) - lightweight 64bit architecture
