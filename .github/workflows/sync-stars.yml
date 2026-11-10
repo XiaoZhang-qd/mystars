@@ -2,8 +2,8 @@ name: Sync GitHub Stars to HTML Page
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天 UTC 0 点自动更新
-  workflow_dispatch:      # 支持手动触发
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   build-stars-page:
@@ -20,178 +20,184 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: XiaoZhang-qd
         run: |
-          # 生成 UTC 标准时间戳
-          UPDATE_TIME=$(date -u +"%Y-%m-%d %H:%M UTC")
+          python3 << 'PYEOF'
+          import os
+          import json
+          import subprocess
+          from datetime import datetime, timezone
 
-          # 分页拉取所有 star 仓库，合并为标准 JSON 数组
-          STARS_JSON="[]"
-          page=1
-          while true; do
-            batch=$(gh api "users/$USERNAME/starred?per_page=100&page=$page" --jq '[.[] | {full_name, html_url, description, language}]')
+          username = os.environ["USERNAME"]
+          update_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+          # 分页拉取所有 star 仓库
+          all_stars = []
+          page = 1
+          while True:
+              cmd = [
+                  "gh", "api",
+                  f"users/{username}/starred?per_page=100&page={page}",
+                  "--jq", "[.[] | {full_name, html_url, description, language}]"
+              ]
+              result = subprocess.run(cmd, capture_output=True, text=True)
+              try:
+                  batch = json.loads(result.stdout)
+              except json.JSONDecodeError:
+                  break
+              if not batch:
+                  break
+              all_stars.extend(batch)
+              page += 1
+
+          # 完整 HTML 模板
+          html = f'''<!DOCTYPE html>
+          <html lang="zh-CN">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>XiaoZhang-qd 的 Star 收藏</title>
+            <style>
+              * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+              body {{
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                max-width: 960px;
+                margin: 0 auto;
+                padding: 24px 20px;
+                background: #f6f8fa;
+                color: #24292f;
+              }}
+              header {{ text-align: center; margin-bottom: 24px; }}
+              h1 {{ font-size: 28px; margin-bottom: 12px; }}
+              .update-time {{
+                color: #656d76;
+                font-size: 14px;
+                margin-bottom: 20px;
+              }}
+              #search-input {{
+                width: 100%;
+                max-width: 480px;
+                padding: 10px 14px;
+                font-size: 15px;
+                border: 1px solid #d0d7de;
+                border-radius: 6px;
+                background: #fff;
+                outline: none;
+              }}
+              #search-input:focus {{
+                border-color: #0969da;
+                box-shadow: 0 0 0 3px rgba(9,105,218,0.15);
+              }}
+              .repo-list {{
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                margin-top: 24px;
+              }}
+              .repo-item {{
+                background: #fff;
+                border: 1px solid #d0d7de;
+                border-radius: 8px;
+                padding: 16px 18px;
+                transition: box-shadow 0.2s;
+              }}
+              .repo-item:hover {{ box-shadow: 0 2px 8px rgba(0,0,0,0.08); }}
+              .repo-name {{
+                font-size: 17px;
+                font-weight: 600;
+                color: #0969da;
+                text-decoration: none;
+              }}
+              .repo-name:hover {{ text-decoration: underline; }}
+              .repo-lang {{
+                display: inline-block;
+                margin-left: 10px;
+                padding: 2px 8px;
+                font-size: 12px;
+                color: #656d76;
+                background: #f6f8fa;
+                border-radius: 12px;
+                vertical-align: middle;
+              }}
+              .repo-desc {{
+                margin-top: 8px;
+                color: #424a53;
+                font-size: 14px;
+                line-height: 1.5;
+              }}
+              footer {{
+                margin-top: 32px;
+                text-align: center;
+                color: #656d76;
+                font-size: 13px;
+              }}
+            </style>
+          </head>
+          <body>
+            <header>
+              <h1>⭐ 我的 GitHub Stars 收藏</h1>
+              <div class="update-time">最后更新：{update_time} 标准时间</div>
+              <input type="text" id="search-input" placeholder="搜索仓库名或描述...">
+            </header>
             
-            if [ "$batch" = "[]" ] || [ -z "$batch" ]; then
-              break
-            fi
+            <ul class="repo-list" id="repo-list"></ul>
             
-            # 合并 JSON 数组
-            STARS_JSON=$(echo "$STARS_JSON" "$batch" | jq -s 'add')
-            page=$((page + 1))
-          done
+            <footer>
+              由 GitHub Actions 自动同步维护
+            </footer>
+            
+            <script>
+              const starsData = {json.dumps(all_stars, ensure_ascii=False)};
 
-          # 输出单文件 HTML（无转义风险，前端渲染）
-          cat > index.html << EOF
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XiaoZhang-qd 的 Star 收藏</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px 20px;
-      background: #f6f8fa;
-      color: #24292f;
-    }
-    header { text-align: center; margin-bottom: 24px; }
-    h1 { font-size: 28px; margin-bottom: 12px; }
-    .update-time {
-      color: #656d76;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-    #search-input {
-      width: 100%;
-      max-width: 480px;
-      padding: 10px 14px;
-      font-size: 15px;
-      border: 1px solid #d0d7de;
-      border-radius: 6px;
-      background: #fff;
-      outline: none;
-    }
-    #search-input:focus {
-      border-color: #0969da;
-      box-shadow: 0 0 0 3px rgba(9,105,218,0.15);
-    }
-    .repo-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 24px;
-    }
-    .repo-item {
-      background: #fff;
-      border: 1px solid #d0d7de;
-      border-radius: 8px;
-      padding: 16px 18px;
-      transition: box-shadow 0.2s;
-    }
-    .repo-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .repo-name {
-      font-size: 17px;
-      font-weight: 600;
-      color: #0969da;
-      text-decoration: none;
-    }
-    .repo-name:hover { text-decoration: underline; }
-    .repo-lang {
-      display: inline-block;
-      margin-left: 10px;
-      padding: 2px 8px;
-      font-size: 12px;
-      color: #656d76;
-      background: #f6f8fa;
-      border-radius: 12px;
-      vertical-align: middle;
-    }
-    .repo-desc {
-      margin-top: 8px;
-      color: #424a53;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    footer {
-      margin-top: 32px;
-      text-align: center;
-      color: #656d76;
-      font-size: 13px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>⭐ 我的 GitHub Stars 收藏</h1>
-    <div class="update-time">最后更新：${UPDATE_TIME} 标准时间</div>
-    <input type="text" id="search-input" placeholder="搜索仓库名或描述...">
-  </header>
-  
-  <ul class="repo-list" id="repo-list"></ul>
-  
-  <footer>
-    由 GitHub Actions 自动同步维护
-  </footer>
-  
-  <script>
-    // 内嵌 Star 数据
-    const starsData = ${STARS_JSON};
+              function escapeHtml(str) {{
+                var div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+              }}
 
-    // HTML 特殊字符转义，避免描述破坏页面
-    function escapeHtml(str) {
-      var div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
+              var listEl = document.getElementById('repo-list');
+              function renderList(data) {{
+                var html = '';
+                for (var i = 0; i < data.length; i++) {{
+                  var item = data[i];
+                  var desc = item.description || '暂无描述';
+                  var lang = item.language || '未标注';
+                  html += '<li class="repo-item">';
+                  html += '<a href="' + item.html_url + '" target="_blank" class="repo-name">' + escapeHtml(item.full_name) + '</a>';
+                  html += '<span class="repo-lang">' + escapeHtml(lang) + '</span>';
+                  html += '<p class="repo-desc">' + escapeHtml(desc) + '</p>';
+                  html += '</li>';
+                }}
+                listEl.innerHTML = html;
+              }}
+              renderList(starsData);
 
-    // 渲染仓库列表
-    var listEl = document.getElementById('repo-list');
-    function renderList(data) {
-      var html = '';
-      for (var i = 0; i < data.length; i++) {
-        var item = data[i];
-        var desc = item.description || '暂无描述';
-        var lang = item.language || '未标注';
-        html += '<li class="repo-item">';
-        html += '<a href="' + item.html_url + '" target="_blank" class="repo-name">' + escapeHtml(item.full_name) + '</a>';
-        html += '<span class="repo-lang">' + escapeHtml(lang) + '</span>';
-        html += '<p class="repo-desc">' + escapeHtml(desc) + '</p>';
-        html += '</li>';
-      }
-      listEl.innerHTML = html;
-    }
-    renderList(starsData);
+              var input = document.getElementById('search-input');
+              input.addEventListener('input', function(e) {{
+                var kw = e.target.value.trim().toLowerCase();
+                var filtered = starsData.filter(function(item) {{
+                  var searchText = (item.full_name + ' ' + (item.description || '')).toLowerCase();
+                  return searchText.indexOf(kw) !== -1;
+                }});
+                renderList(filtered);
+              }});
+            </script>
+          </body>
+          </html>'''
 
-    // 实时搜索功能
-    var input = document.getElementById('search-input');
-    input.addEventListener('input', function(e) {
-      var kw = e.target.value.trim().toLowerCase();
-      var filtered = starsData.filter(function(item) {
-        var searchText = (item.full_name + ' ' + (item.description || '')).toLowerCase();
-        return searchText.indexOf(kw) !== -1;
-      });
-      renderList(filtered);
-    });
-  </script>
-</body>
-</html>
-EOF
+          with open("index.html", "w", encoding="utf-8") as f:
+              f.write(html)
 
-          echo "页面生成完成，共 $((page - 1)) 页仓库数据"
+          print(f"生成完成，共 {len(all_stars)} 个仓库")
+          PYEOF
 
       - name: 提交并推送
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          
           git add index.html
           if git diff --cached --quiet; then
             echo "无更新，跳过提交"
             exit 0
           fi
-          
           git commit -m "chore: auto update stars page"
           git push
