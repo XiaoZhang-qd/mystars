@@ -35,13 +35,16 @@ jobs:
             PAGE=$((PAGE + 1))
           done
 
-          # 匹配每个仓库的语言颜色，匹配不到用默认灰色
+          # 修正：用变量保存当前仓库语言，避免作用域冲突，正确匹配颜色
           ALL_REPOS=$(echo "$ALL_REPOS" | jq --slurpfile colors lang-colors.json '
-            map(. + {
-              color: (
-                $colors[0][] | select(.name == .language) | .color
-              ) // "#cccccc"
-            })
+            map(
+              . as $repo |
+              . + {
+                color: (
+                  $colors[0][] | select(.name == $repo.language) | .color
+                ) // "#cccccc"
+              }
+            )
           ')
 
           # 生成最终 JSON（UTC 标准时间戳）
@@ -49,6 +52,7 @@ jobs:
           jq -n --arg update_time "$UPDATE_TIME" --argjson repos "$ALL_REPOS" '{update_time: $update_time, repos: $repos}' > stars.json
 
           rm -f lang-colors.json
+          echo "生成完成，共 $(echo "$ALL_REPOS" | jq length) 个仓库"
 
       - name: 提交并推送
         run: |
