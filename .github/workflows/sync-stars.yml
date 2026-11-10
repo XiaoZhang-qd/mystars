@@ -15,12 +15,15 @@ jobs:
       - name: Checkout 仓库
         uses: actions/checkout@v4
 
-      - name: 生成 stars.json
+      - name: 生成 stars.json（含语言颜色）
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: XiaoZhang-qd
         run: |
-          UPDATE_TIME=$(date -u +"%Y-%m-%d %H:%M UTC")
+          # 下载编程语言颜色表
+          curl -sL https://staticdata.dev/v1/programming-languages.json -o lang-colors.json
+
+          # 分页拉取 star 列表
           ALL_REPOS="[]"
           PAGE=1
           while true; do
@@ -31,7 +34,21 @@ jobs:
             ALL_REPOS=$(echo "$ALL_REPOS" "$BATCH" | jq -s 'add')
             PAGE=$((PAGE + 1))
           done
+
+          # 匹配每个仓库的语言颜色，匹配不到用默认灰色
+          ALL_REPOS=$(echo "$ALL_REPOS" | jq --slurpfile colors lang-colors.json '
+            map(. + {
+              color: (
+                $colors[0][] | select(.name == .language) | .color
+              ) // "#cccccc"
+            })
+          ')
+
+          # 生成最终 JSON（UTC 标准时间戳）
+          UPDATE_TIME=$(date -u +"%Y-%m-%d %H:%M UTC")
           jq -n --arg update_time "$UPDATE_TIME" --argjson repos "$ALL_REPOS" '{update_time: $update_time, repos: $repos}' > stars.json
+
+          rm -f lang-colors.json
 
       - name: 提交并推送
         run: |
