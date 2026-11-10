@@ -1,0 +1,74 @@
+name: Sync GitHub Stars to README
+
+on:
+  schedule:
+    # 每天 UTC 0 点执行（北京时间 8 点）
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 支持手动触发
+
+jobs:
+  sync-stars:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout 仓库
+        uses: actions/checkout@v4
+
+      - name: 获取 Star 列表并生成 Markdown
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: XiaoZhang-qd
+        run: |
+          # 拉取所有 star 的仓库（分页获取）
+          echo "<!-- STARS:START -->" > stars_temp.md
+          echo "" >> stars_temp.md
+          
+          page=1
+          while true; do
+            repos=$(gh api "users/$USERNAME/starred?per_page=100&page=$page" --jq '.[] | "- [\(.full_name)](\(.html_url)) - \(.description // "无描述")"' 2>/dev/null)
+            
+            if [ -z "$repos" ]; then
+              break
+            fi
+            
+            echo "$repos" >> stars_temp.md
+            page=$((page + 1))
+          done
+          
+          echo "" >> stars_temp.md
+          echo "<!-- STARS:END -->" >> stars_temp.md
+
+      - name: 更新 README.md
+        run: |
+          if [ ! -f README.md ]; then
+            echo "# My GitHub Stars" > README.md
+            echo "" >> README.md
+            echo "<!-- STARS:START -->" >> README.md
+            echo "<!-- STARS:END -->" >> README.md
+          fi
+
+          # 替换标记之间的内容
+          awk '
+            /<!-- STARS:START -->/ { print; system("cat stars_temp.md"); skip=1; next }
+            /<!-- STARS:END -->/ { skip=0 }
+            !skip { print }
+          ' README.md > README_new.md
+          
+          mv README_new.md README.md
+          rm -f stars_temp.md
+
+      - name: 提交并推送更改
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add README.md
+          if git diff --cached --quiet; then
+            echo "无更新，跳过提交"
+            exit 0
+          fi
+          
+          git commit -m "chore: auto update stars list"
+          git push
