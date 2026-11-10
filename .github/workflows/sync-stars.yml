@@ -1,12 +1,12 @@
-name: Sync GitHub Stars to README
+name: Sync GitHub Stars to HTML Page
 
 on:
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+    - cron: '0 0 * * *'  # 每天北京时间 8 点自动更新
+  workflow_dispatch:      # 支持手动触发
 
 jobs:
-  sync-stars:
+  build-stars-page:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -15,71 +15,162 @@ jobs:
       - name: Checkout 仓库
         uses: actions/checkout@v4
 
-      - name: 获取 Star 列表并生成 Markdown
+      - name: 拉取数据并生成 index.html
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: XiaoZhang-qd
         run: |
-          # 生成纯列表内容（不含首尾标记）
-          : > stars_content.md
+          # 生成北京时间更新时间戳
+          UPDATE_TIME=$(TZ=Asia/Shanghai date +"%Y-%m-%d %H:%M")
           
+          # 分页拉取所有 star 仓库，渲染成列表项
+          ITEMS=""
           page=1
           while true; do
-            repos=$(gh api "users/$USERNAME/starred?per_page=100&page=$page" --jq '.[] | "- [\(.full_name)](\(.html_url)) - \(.description // "无描述")"' 2>/dev/null)
+            batch=$(gh api "users/$USERNAME/starred?per_page=100&page=$page" --jq '
+              .[] | 
+              "<li class=\"repo-item\" data-search=\"\(.full_name | @lower) \(.description // \"\" | @lower)\">
+                <a href=\"\(.html_url)\" target=\"_blank\" class=\"repo-name\">\(.full_name | @html)</a>
+                <span class=\"repo-lang\">\(.language // \"未标注\")</span>
+                <p class=\"repo-desc\">\(.description // \"暂无描述\" | @html)</p>
+              </li>"
+            ' 2>/dev/null)
             
-            if [ -z "$repos" ]; then
+            if [ -z "$batch" ]; then
               break
             fi
-            
-            echo "$repos" >> stars_content.md
+            ITEMS="$ITEMS$batch"
             page=$((page + 1))
           done
           
-          echo "已获取 $((page - 1)) 页 Star 数据"
-          wc -l stars_content.md
-
-      - name: 初始化 README 标记
-        run: |
-          # 如果 README 不存在，创建基础结构
-          if [ ! -f README.md ]; then
-            echo "# My GitHub Stars" > README.md
-            echo "" >> README.md
-          fi
+          # 输出完整 HTML 文件（内联样式+搜索脚本，无外部依赖）
+          cat > index.html << EOF
+          <!DOCTYPE html>
+          <html lang="zh-CN">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>XiaoZhang-qd 的 Star 收藏</title>
+            <style>
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                max-width: 960px;
+                margin: 0 auto;
+                padding: 24px 20px;
+                background: #f6f8fa;
+                color: #24292f;
+              }
+              header { text-align: center; margin-bottom: 24px; }
+              h1 { font-size: 28px; margin-bottom: 12px; }
+              .update-time {
+                color: #656d76;
+                font-size: 14px;
+                margin-bottom: 20px;
+              }
+              #search-input {
+                width: 100%;
+                max-width: 480px;
+                padding: 10px 14px;
+                font-size: 15px;
+                border: 1px solid #d0d7de;
+                border-radius: 6px;
+                background: #fff;
+                outline: none;
+              }
+              #search-input:focus {
+                border-color: #0969da;
+                box-shadow: 0 0 0 3px rgba(9,105,218,0.15);
+              }
+              .repo-list {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                margin-top: 24px;
+              }
+              .repo-item {
+                background: #fff;
+                border: 1px solid #d0d7de;
+                border-radius: 8px;
+                padding: 16px 18px;
+                transition: box-shadow 0.2s;
+              }
+              .repo-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+              .repo-name {
+                font-size: 17px;
+                font-weight: 600;
+                color: #0969da;
+                text-decoration: none;
+              }
+              .repo-name:hover { text-decoration: underline; }
+              .repo-lang {
+                display: inline-block;
+                margin-left: 10px;
+                padding: 2px 8px;
+                font-size: 12px;
+                color: #656d76;
+                background: #f6f8fa;
+                border-radius: 12px;
+                vertical-align: middle;
+              }
+              .repo-desc {
+                margin-top: 8px;
+                color: #424a53;
+                font-size: 14px;
+                line-height: 1.5;
+              }
+              .hidden { display: none !important; }
+              footer {
+                margin-top: 32px;
+                text-align: center;
+                color: #656d76;
+                font-size: 13px;
+              }
+            </style>
+          </head>
+          <body>
+            <header>
+              <h1>⭐ 我的 GitHub Stars 收藏</h1>
+              <div class="update-time">最后更新：${UPDATE_TIME} (北京时间)</div>
+              <input type="text" id="search-input" placeholder="搜索仓库名或描述...">
+            </header>
+            
+            <ul class="repo-list" id="repo-list">
+              ${ITEMS}
+            </ul>
+            
+            <footer>
+              由 GitHub Actions 自动同步维护
+            </footer>
+            
+            <script>
+              const input = document.getElementById('search-input');
+              const items = document.querySelectorAll('.repo-item');
+              
+              input.addEventListener('input', e => {
+                const kw = e.target.value.trim().toLowerCase();
+                items.forEach(item => {
+                  item.classList.toggle('hidden', !item.dataset.search.includes(kw));
+                });
+              });
+            </script>
+          </body>
+          </html>
+          EOF
           
-          # 如果 README 中没有标记，则追加到末尾
-          if ! grep -q "<!-- STARS:START -->" README.md; then
-            echo "" >> README.md
-            echo "<!-- STARS:START -->" >> README.md
-            echo "<!-- STARS:END -->" >> README.md
-            echo "已向 README 追加标记位"
-          fi
+          echo "页面生成完成"
 
-      - name: 更新 README.md
-        run: |
-          # 使用 awk 安全替换标记之间的内容
-          awk '
-            /<!-- STARS:START -->/ { print; while ((getline line < "stars_content.md") > 0) print line; skip=1; next }
-            /<!-- STARS:END -->/ { print; skip=0; next }
-            !skip { print }
-          ' README.md > README_new.md
-          
-          mv README_new.md README.md
-          rm -f stars_content.md
-          
-          echo "更新后的 README 行数："
-          wc -l README.md
-
-      - name: 提交并推送更改
+      - name: 提交并推送
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          git add README.md
+          git add index.html
           if git diff --cached --quiet; then
-            echo "内容无变化，跳过提交"
+            echo "无更新，跳过提交"
             exit 0
           fi
           
-          git commit -m "chore: auto update stars list"
+          git commit -m "chore: auto update stars page"
           git push
-          echo "已成功提交并推送"
