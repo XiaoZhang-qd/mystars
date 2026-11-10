@@ -1,40 +1,129 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="auto">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XiaoZhang-qd 的 Star 收藏</title>
   <style>
+    :root {
+      --bg: #f6f8fa;
+      --text: #24292f;
+      --text-secondary: #656d76;
+      --border: #d0d7de;
+      --card-bg: #ffffff;
+      --card-hover-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      --input-bg: #ffffff;
+      --input-border-focus: #0969da;
+      --input-shadow-focus: rgba(9,105,218,0.15);
+      --link: #0969da;
+      --tag-bg: #f6f8fa;
+      --avatar-card-bg: rgba(255,255,255,.48);
+      --avatar-card-border: rgba(255,255,255,.72);
+      --avatar-card-shadow: 0 8px 24px rgba(31,38,135,.09),inset 0 1px 1px rgba(255,255,255,.9),inset 0 -1px 1px rgba(255,255,255,.25);
+      --avatar-card-hover-shadow: 0 12px 30px rgba(31,38,135,.15),inset 0 1px 2px rgba(255,255,255,.95);
+      --theme-btn-bg: #ffffff;
+      --theme-btn-hover: #f3f4f6;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0d1117;
+      --text: #e6edf3;
+      --text-secondary: #8b949e;
+      --border: #30363d;
+      --card-bg: #161b22;
+      --card-hover-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      --input-bg: #0d1117;
+      --input-border-focus: #58a6ff;
+      --input-shadow-focus: rgba(88,166,255,0.15);
+      --link: #58a6ff;
+      --tag-bg: #21262d;
+      --avatar-card-bg: rgba(22,27,34,.6);
+      --avatar-card-border: rgba(255,255,255,.08);
+      --avatar-card-shadow: 0 8px 24px rgba(0,0,0,.3),inset 0 1px 1px rgba(255,255,255,.05),inset 0 -1px 1px rgba(0,0,0,.3);
+      --avatar-card-hover-shadow: 0 12px 30px rgba(0,0,0,.4),inset 0 1px 2px rgba(255,255,255,.08);
+      --theme-btn-bg: #161b22;
+      --theme-btn-hover: #21262d;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      [data-theme="auto"] {
+        --bg: #0d1117;
+        --text: #e6edf3;
+        --text-secondary: #8b949e;
+        --border: #30363d;
+        --card-bg: #161b22;
+        --card-hover-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        --input-bg: #0d1117;
+        --input-border-focus: #58a6ff;
+        --input-shadow-focus: rgba(88,166,255,0.15);
+        --link: #58a6ff;
+        --tag-bg: #21262d;
+        --avatar-card-bg: rgba(22,27,34,.6);
+        --avatar-card-border: rgba(255,255,255,.08);
+        --avatar-card-shadow: 0 8px 24px rgba(0,0,0,.3),inset 0 1px 1px rgba(255,255,255,.05),inset 0 -1px 1px rgba(0,0,0,.3);
+        --avatar-card-hover-shadow: 0 12px 30px rgba(0,0,0,.4),inset 0 1px 2px rgba(255,255,255,.08);
+        --theme-btn-bg: #161b22;
+        --theme-btn-hover: #21262d;
+      }
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       max-width: 960px;
       margin: 0 auto;
       padding: 24px 20px;
-      background: #f6f8fa;
-      color: #24292f;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.2s ease, color 0.2s ease;
     }
     header { text-align: center; margin-bottom: 24px; }
     h1 { font-size: 28px; margin-bottom: 12px; }
     h1 a { color: inherit; text-decoration: none; }
     .update-time {
-      color: #656d76;
+      color: var(--text-secondary);
       font-size: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+    }
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      max-width: 480px;
+      margin: 0 auto;
+      align-items: center;
     }
     #search-input {
-      width: 100%;
-      max-width: 480px;
+      flex: 1;
       padding: 10px 14px;
       font-size: 15px;
-      border: 1px solid #d0d7de;
+      border: 1px solid var(--border);
       border-radius: 6px;
-      background: #fff;
+      background: var(--input-bg);
+      color: var(--text);
       outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     #search-input:focus {
-      border-color: #0969da;
-      box-shadow: 0 0 0 3px rgba(9,105,218,0.15);
+      border-color: var(--input-border-focus);
+      box-shadow: 0 0 0 3px var(--input-shadow-focus);
+    }
+    #theme-toggle {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--theme-btn-bg);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    #theme-toggle:hover {
+      background: var(--theme-btn-hover);
     }
     .repo-list {
       list-style: none;
@@ -44,17 +133,17 @@
       margin-top: 24px;
     }
     .repo-item {
-      background: #fff;
-      border: 1px solid #d0d7de;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 16px 18px;
-      transition: box-shadow 0.2s;
+      transition: box-shadow 0.2s, background 0.2s, border-color 0.2s;
     }
-    .repo-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .repo-item:hover { box-shadow: var(--card-hover-shadow); }
     .repo-name {
       font-size: 17px;
       font-weight: 600;
-      color: #0969da;
+      color: var(--link);
       text-decoration: none;
     }
     .repo-name:hover { text-decoration: underline; }
@@ -65,8 +154,8 @@
       margin-left: 10px;
       padding: 2px 8px;
       font-size: 12px;
-      color: #656d76;
-      background: #f6f8fa;
+      color: var(--text-secondary);
+      background: var(--tag-bg);
       border-radius: 12px;
       vertical-align: middle;
     }
@@ -78,27 +167,27 @@
     }
     .repo-desc {
       margin-top: 8px;
-      color: #424a53;
+      color: var(--text-secondary);
       font-size: 14px;
       line-height: 1.5;
     }
     /* 头像卡片 */
-    #xz-mini { display:inline-block; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#24292f; isolation:isolate; margin-bottom: 20px; }
+    #xz-mini { display:inline-block; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--text); isolation:isolate; margin-bottom: 20px; }
     #xz-mini *,#xz-mini *:before,#xz-mini *:after { box-sizing:border-box; }
-    #xz-mini .xz-card { position:relative; display:flex; align-items:center; gap:12px; padding:11px 15px; border-radius:17px; overflow:hidden; background:rgba(255,255,255,.48); border:1px solid rgba(255,255,255,.72); -webkit-backdrop-filter:blur(20px) saturate(180%); backdrop-filter:blur(20px) saturate(180%); box-shadow:0 8px 24px rgba(31,38,135,.09),inset 0 1px 1px rgba(255,255,255,.9),inset 0 -1px 1px rgba(255,255,255,.25); transition:transform .3s ease,box-shadow .3s ease; }
-    #xz-mini .xz-card:before { content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg,rgba(255,255,255,.55),transparent 45%,rgba(255,255,255,.08)); pointer-events:none; }
-    #xz-mini .xz-card:hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(31,38,135,.15),inset 0 1px 2px rgba(255,255,255,.95); }
+    #xz-mini .xz-card { position:relative; display:flex; align-items:center; gap:12px; padding:11px 15px; border-radius:17px; overflow:hidden; background:var(--avatar-card-bg); border:1px solid var(--avatar-card-border); -webkit-backdrop-filter:blur(20px) saturate(180%); backdrop-filter:blur(20px) saturate(180%); box-shadow:var(--avatar-card-shadow); transition:transform .3s ease,box-shadow .3s ease; }
+    #xz-mini .xz-card:before { content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg,rgba(255,255,255,.2),transparent 45%,rgba(255,255,255,.05)); pointer-events:none; }
+    #xz-mini .xz-card:hover { transform:translateY(-2px); box-shadow:var(--avatar-card-hover-shadow); }
     #xz-mini .xz-avatar { position:relative; flex-shrink:0; width:46px; height:46px; padding:2px; border-radius:50%; background:linear-gradient(135deg,#a78bfa,#60a5fa,#c4b5fd); box-shadow:0 2px 8px rgba(99,102,241,.2); }
     #xz-mini .xz-avatar img { display:block; width:100%; height:100%; object-fit:cover; border-radius:50%; border:2px solid rgba(255,255,255,.9); }
     #xz-mini .xz-info { position:relative; min-width:0; text-align: left; }
-    #xz-mini .xz-name { margin:0; font-size:14px; font-weight:700; color:#24292f; }
-    #xz-mini .xz-id { margin-top:4px; font-size:11px; color:#64748b; }
-    #xz-mini .xz-link { position:relative; margin-left:auto; color:#64748b; font-size:19px; text-decoration:none; transition:.25s; }
+    #xz-mini .xz-name { margin:0; font-size:14px; font-weight:700; color:var(--text); }
+    #xz-mini .xz-id { margin-top:4px; font-size:11px; color:var(--text-secondary); }
+    #xz-mini .xz-link { position:relative; margin-left:auto; color:var(--text-secondary); font-size:19px; text-decoration:none; transition:.25s; }
     #xz-mini .xz-link:hover { color:#7c3aed; transform:translate(2px,-2px); }
     footer {
       margin-top: 32px;
       text-align: center;
-      color: #656d76;
+      color: var(--text-secondary);
       font-size: 13px;
     }
   </style>
@@ -117,7 +206,10 @@
     </div>
     <h1>⭐ GitHub Stars 收藏</h1>
     <div class="update-time" id="update-time">加载中...</div>
-    <input type="text" id="search-input" placeholder="搜索仓库名或描述...">
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="搜索仓库名或描述...">
+      <button id="theme-toggle" title="切换主题">🌓</button>
+    </div>
   </header>
   
   <ul class="repo-list" id="repo-list"></ul>
@@ -127,6 +219,40 @@
   </footer>
   
   <script>
+    // 主题切换逻辑
+    (function() {
+      const html = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const themes = ['auto', 'light', 'dark'];
+      const icons = { auto: '🌓', light: '☀️', dark: '🌙' };
+      
+      // 读取本地存储
+      let current = localStorage.getItem('theme') || 'auto';
+      applyTheme(current);
+
+      function applyTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        btn.textContent = icons[theme];
+        localStorage.setItem('theme', theme);
+        current = theme;
+      }
+
+      btn.addEventListener('click', function() {
+        const idx = themes.indexOf(current);
+        const next = themes[(idx + 1) % themes.length];
+        applyTheme(next);
+      });
+
+      // 监听系统主题变化（仅 auto 模式生效）
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if (current === 'auto') {
+          // 触发浏览器自动重算 CSS 变量
+          html.setAttribute('data-theme', 'auto');
+        }
+      });
+    })();
+
+    // 原有渲染逻辑
     function escapeHtml(str) {
       var div = document.createElement('div');
       div.textContent = str;
