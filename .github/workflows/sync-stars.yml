@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-stars-page:
+  sync-stars:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -15,217 +15,32 @@ jobs:
       - name: Checkout 仓库
         uses: actions/checkout@v4
 
-      - name: 写入生成脚本
-        run: |
-          cat > build.py << 'PYEOF'
-import os
-import json
-import subprocess
-from datetime import datetime, timezone
-
-username = os.environ["USERNAME"]
-update_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-
-# 分页拉取所有 star 仓库
-all_stars = []
-page = 1
-while True:
-    cmd = [
-        "gh", "api",
-        f"users/{username}/starred?per_page=100&page={page}",
-        "--jq", "[.[] | {full_name, html_url, description, language}]"
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.stderr:
-        print("gh stderr:", result.stderr)
-    try:
-        batch = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        print("JSON解析失败，停止拉取")
-        break
-    if not batch:
-        break
-    all_stars.extend(batch)
-    page += 1
-
-html = f'''<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XiaoZhang-qd 的 Star 收藏</title>
-  <style>
-    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px 20px;
-      background: #f6f8fa;
-      color: #24292f;
-    }}
-    header {{ text-align: center; margin-bottom: 24px; }}
-    h1 {{ font-size: 28px; margin-bottom: 12px; }}
-    h1 a {{ color: inherit; text-decoration: none; }}
-    .update-time {{
-      color: #656d76;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }}
-    #search-input {{
-      width: 100%;
-      max-width: 480px;
-      padding: 10px 14px;
-      font-size: 15px;
-      border: 1px solid #d0d7de;
-      border-radius: 6px;
-      background: #fff;
-      outline: none;
-    }}
-    #search-input:focus {{
-      border-color: #0969da;
-      box-shadow: 0 0 0 3px rgba(9,105,218,0.15);
-    }}
-    .repo-list {{
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 24px;
-    }}
-    .repo-item {{
-      background: #fff;
-      border: 1px solid #d0d7de;
-      border-radius: 8px;
-      padding: 16px 18px;
-      transition: box-shadow 0.2s;
-    }}
-    .repo-item:hover {{ box-shadow: 0 2px 8px rgba(0,0,0,0.08); }}
-    .repo-name {{
-      font-size: 17px;
-      font-weight: 600;
-      color: #0969da;
-      text-decoration: none;
-    }}
-    .repo-name:hover {{ text-decoration: underline; }}
-    .repo-lang {{
-      display: inline-block;
-      margin-left: 10px;
-      padding: 2px 8px;
-      font-size: 12px;
-      color: #656d76;
-      background: #f6f8fa;
-      border-radius: 12px;
-      vertical-align: middle;
-    }}
-    .repo-desc {{
-      margin-top: 8px;
-      color: #424a53;
-      font-size: 14px;
-      line-height: 1.5;
-    }}
-    footer {{
-      margin-top: 32px;
-      text-align: center;
-      color: #656d76;
-      font-size: 13px;
-    }}
-    #xz-mini {{ display:inline-block; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#24292f; isolation:isolate; margin-bottom: 20px; }}
-    #xz-mini *,#xz-mini *:before,#xz-mini *:after {{ box-sizing:border-box; }}
-    #xz-mini .xz-card {{ position:relative; display:flex; align-items:center; gap:12px; padding:11px 15px; border-radius:17px; overflow:hidden; background:rgba(255,255,255,.48); border:1px solid rgba(255,255,255,.72); -webkit-backdrop-filter:blur(20px) saturate(180%); backdrop-filter:blur(20px) saturate(180%); box-shadow:0 8px 24px rgba(31,38,135,.09),inset 0 1px 1px rgba(255,255,255,.9),inset 0 -1px 1px rgba(255,255,255,.25); transition:transform .3s ease,box-shadow .3s ease; }}
-    #xz-mini .xz-card:before {{ content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg,rgba(255,255,255,.55),transparent 45%,rgba(255,255,255,.08)); pointer-events:none; }}
-    #xz-mini .xz-card:hover {{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(31,38,135,.15),inset 0 1px 2px rgba(255,255,255,.95); }}
-    #xz-mini .xz-avatar {{ position:relative; flex-shrink:0; width:46px; height:46px; padding:2px; border-radius:50%; background:linear-gradient(135deg,#a78bfa,#60a5fa,#c4b5fd); box-shadow:0 2px 8px rgba(99,102,241,.2); }}
-    #xz-mini .xz-avatar img {{ display:block; width:100%; height:100%; object-fit:cover; border-radius:50%; border:2px solid rgba(255,255,255,.9); }}
-    #xz-mini .xz-info {{ position:relative; min-width:0; text-align: left; }}
-    #xz-mini .xz-name {{ margin:0; font-size:14px; font-weight:700; color:#24292f; }}
-    #xz-mini .xz-id {{ margin-top:4px; font-size:11px; color:#64748b; }}
-    #xz-mini .xz-link {{ position:relative; margin-left:auto; color:#64748b; font-size:19px; text-decoration:none; transition:.25s; }}
-    #xz-mini .xz-link:hover {{ color:#7c3aed; transform:translate(2px,-2px); }}
-  </style>
-</head>
-<body>
-  <header>
-    <div id="xz-mini">
-      <div class="xz-card">
-        <div class="xz-avatar"><img src="https://avatars.githubusercontent.com/u/199068665" alt="XiaoZhang-qd"></div>
-        <div class="xz-info">
-          <p class="xz-name">XiaoZhang-qd</p>
-          <div class="xz-id">GitHub · 199068665</div>
-        </div>
-        <a class="xz-link" href="https://github.com/XiaoZhang-qd" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub profile">GO</a>
-      </div>
-    </div>
-    <h1>⭐ GitHub Stars 收藏</h1>
-    <div class="update-time">最后更新：{update_time} 标准时间</div>
-    <input type="text" id="search-input" placeholder="搜索仓库名或描述...">
-  </header>
-  
-  <ul class="repo-list" id="repo-list"></ul>
-  
-  <footer>
-    由 GitHub Actions 自动同步维护
-  </footer>
-  
-  <script>
-    const starsData = {json.dumps(all_stars, ensure_ascii=False)};
-
-    function escapeHtml(str) {{
-      var div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }}
-
-    var listEl = document.getElementById('repo-list');
-    function renderList(data) {{
-      var html = '';
-      for (var i = 0; i < data.length; i++) {{
-        var item = data[i];
-        var desc = item.description || '暂无描述';
-        var lang = item.language || '未标注';
-        html += '<li class="repo-item">';
-        html += '<a href="' + item.html_url + '" target="_blank" class="repo-name">' + escapeHtml(item.full_name) + '</a>';
-        html += '<span class="repo-lang">' + escapeHtml(lang) + '</span>';
-        html += '<p class="repo-desc">' + escapeHtml(desc) + '</p>';
-        html += '</li>';
-      }}
-      listEl.innerHTML = html;
-    }}
-    renderList(starsData);
-
-    var input = document.getElementById('search-input');
-    input.addEventListener('input', function(e) {{
-      var kw = e.target.value.trim().toLowerCase();
-      var filtered = starsData.filter(function(item) {{
-        var searchText = (item.full_name + ' ' + (item.description || '')).toLowerCase();
-        return searchText.indexOf(kw) !== -1;
-      }});
-      renderList(filtered);
-    }});
-  </script>
-</body>
-</html>'''
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html)
-
-print(f"生成完成，共 {len(all_stars)} 个仓库")
-PYEOF
-
-      - name: 执行脚本生成页面
+      - name: 生成 stars.json
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: XiaoZhang-qd
-        run: python3 build.py
+        run: |
+          UPDATE_TIME=$(date -u +"%Y-%m-%d %H:%M UTC")
+          ALL_REPOS="[]"
+          PAGE=1
+          while true; do
+            BATCH=$(gh api "users/$USERNAME/starred?per_page=100&page=$PAGE" --jq '[.[] | {full_name, html_url, description, language}]')
+            if [ "$BATCH" = "[]" ] || [ -z "$BATCH" ]; then
+              break
+            fi
+            ALL_REPOS=$(echo "$ALL_REPOS" "$BATCH" | jq -s 'add')
+            PAGE=$((PAGE + 1))
+          done
+          jq -n --arg update_time "$UPDATE_TIME" --argjson repos "$ALL_REPOS" '{update_time: $update_time, repos: $repos}' > stars.json
 
       - name: 提交并推送
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add index.html
+          git add stars.json
           if git diff --cached --quiet; then
             echo "无更新，跳过提交"
             exit 0
           fi
-          git commit -m "chore: auto update stars page"
+          git commit -m "chore: auto update stars data"
           git push
