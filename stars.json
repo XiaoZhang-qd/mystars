@@ -1,6 +1,62 @@
 {
-  "update_time": "2026-11-11 03:14 UTC",
+  "update_time": "2026-11-12 04:25 UTC",
   "repos": [
+    {
+      "description": "Experimental, pre-release. Drives Android devices and emulators, iOS Simulators and iPhones for AI agents: a daemon with a live mirror of every screen, a CLI and an MCP server, built around the latency of each tap-and-observe step",
+      "full_name": "gesposito/mobile-agent",
+      "html_url": "https://github.com/gesposito/mobile-agent",
+      "language": "Rust",
+      "color": "#dea584"
+    },
+    {
+      "description": "MCP server for remote iPhone control — tap, swipe, type, screenshot via AI",
+      "full_name": "Qizhan7/wda-mcp",
+      "html_url": "https://github.com/Qizhan7/wda-mcp",
+      "language": "Python",
+      "color": "#3572A5"
+    },
+    {
+      "description": "The universal iOS automation platform",
+      "full_name": "swipt-automation/swipt",
+      "html_url": "https://github.com/swipt-automation/swipt",
+      "language": "Go",
+      "color": "#00ADD8"
+    },
+    {
+      "description": "PhoneClaw turns phones into local AI agent runtimes with on-device models, native mobile Skills, LiveLand, and optional Mac Gateway inference.",
+      "full_name": "kellyvv/PhoneClaw",
+      "html_url": "https://github.com/kellyvv/PhoneClaw",
+      "language": "Swift",
+      "color": "#F05138"
+    },
+    {
+      "description": "Apple Wallet Card Skinner for iOS 18+ (No Jailbreak Required)",
+      "full_name": "Mak5er/AirCard",
+      "html_url": "https://github.com/Mak5er/AirCard",
+      "language": "Swift",
+      "color": "#F05138"
+    },
+    {
+      "description": "Cross-platform Xcode replacement. Build and deploy iOS apps with SwiftPM on Linux, Windows, macOS.",
+      "full_name": "xtool-org/xtool",
+      "html_url": "https://github.com/xtool-org/xtool",
+      "language": "Swift",
+      "color": "#F05138"
+    },
+    {
+      "description": "DeepSeek Harness plugin store, marketplace and hub — 11,000+ dsh plugins with search, rankings, install commands and a free public API. DeepSeek Harness 插件市场 / 插件商店：自动收集与格式校验，免费搜索 API。deepseek1024.com",
+      "full_name": "imsai-sh/awesome-deepseek-harness-plugins",
+      "html_url": "https://github.com/imsai-sh/awesome-deepseek-harness-plugins",
+      "language": "JavaScript",
+      "color": "#f1e05a"
+    },
+    {
+      "description": "DSH iOS 移动版：在 iPhone 和 iPad 上本机运行 DeepSeek Harness，界面完全原生，不连电脑和服务器。Run DSH (DeepSeek Harness) natively on iPhone and iPad: no computer, no server.",
+      "full_name": "imsai-sh/fish-pocket",
+      "html_url": "https://github.com/imsai-sh/fish-pocket",
+      "language": "Swift",
+      "color": "#F05138"
+    },
     {
       "description": "Generate Open Graph Images dynamically from HTML/CSS without a browser in SvelteKit",
       "full_name": "etherCorps/sveltekit-og",
@@ -695,7 +751,7 @@
       "color": "#e34c26"
     },
     {
-      "description": "Curated AltStore sources for IPA projects on GitHub",
+      "description": "Curated AltStore sources for IPA projects on GitHub | 精选 AltStore 软件源：汇聚 GitHub 优质 IPA 开源项目",
       "full_name": "bebound/AltGallery",
       "html_url": "https://github.com/bebound/AltGallery",
       "language": "Python",
