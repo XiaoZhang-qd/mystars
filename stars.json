@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-11-12 04:25 UTC",
+  "update_time": "2026-11-13 03:41 UTC",
   "repos": [
     {
       "description": "Experimental, pre-release. Drives Android devices and emulators, iOS Simulators and iPhones for AI agents: a daemon with a live mirror of every screen, a CLI and an MCP server, built around the latency of each tap-and-observe step",
