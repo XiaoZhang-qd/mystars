@@ -1,6 +1,27 @@
 {
-  "update_time": "2026-11-13 03:41 UTC",
+  "update_time": "2026-11-14 03:40 UTC",
   "repos": [
+    {
+      "description": "跨设备的开源Agent工作台",
+      "full_name": "anywhere-labs/Agents-Anywhere",
+      "html_url": "https://github.com/anywhere-labs/Agents-Anywhere",
+      "language": "TypeScript",
+      "color": "#3178c6"
+    },
+    {
+      "description": "Let AI agents see and drive your own React Native app on a test phone, from inside the app.",
+      "full_name": "BO5AMIS/tapline",
+      "html_url": "https://github.com/BO5AMIS/tapline",
+      "language": "TypeScript",
+      "color": "#3178c6"
+    },
+    {
+      "description": "Agent iPhone control, built for testing your own apps: AI agents see and drive a real iPhone through MCP, from Windows, Linux or macOS. No Mac needed.",
+      "full_name": "BO5AMIS/tapwright",
+      "html_url": "https://github.com/BO5AMIS/tapwright",
+      "language": "Python",
+      "color": "#3572A5"
+    },
     {
       "description": "Experimental, pre-release. Drives Android devices and emulators, iOS Simulators and iPhones for AI agents: a daemon with a live mirror of every screen, a CLI and an MCP server, built around the latency of each tap-and-observe step",
       "full_name": "gesposito/mobile-agent",
@@ -205,11 +226,11 @@
       "color": "#F05138"
     },
     {
-      "description": "Automate with computer-use agent (ComputerUse / CUA) for macOS, Windows, Linux, Browser, iOS & Android. It sees the screen, clicks, types, browses and writes the code too. One agent, every computer.",
+      "description": "Automate with computer use agent (ComputerUse / CUA) for macOS, Windows, Linux, Browser, iOS & Android. It sees the screen, clicks, types, browses and writes the code too. One agent, every computer.",
       "full_name": "ComputerUseAgent/AutoCua",
       "html_url": "https://github.com/ComputerUseAgent/AutoCua",
-      "language": "Python",
-      "color": "#3572A5"
+      "language": "Rust",
+      "color": "#dea584"
     },
     {
       "description": "Mobile MCP: let AI agents drive your iOS and Android apps. MCP server for simulators, emulators and real devices. Works with Claude Code, Codex, Cursor and any MCP client.",
