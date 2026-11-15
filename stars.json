@@ -1,6 +1,20 @@
 {
-  "update_time": "2026-11-14 03:40 UTC",
+  "update_time": "2026-11-15 03:15 UTC",
   "repos": [
+    {
+      "description": "CVE-2026-112611: OOB Write in CoreGraphics (PDF ShadingType 5) via /N and /C0 array mismatch. Causes heap overflow (DoS). The Python PoC generates the malicious PDF, while the C-code uses a SIGSEGV handler to map the faulting memory and confirm the write primitive.",
+      "full_name": "Rust505/CVE-2026-112611",
+      "html_url": "https://github.com/Rust505/CVE-2026-112611",
+      "language": "C",
+      "color": "#555555"
+    },
+    {
+      "description": "为 DeepSeek Harness (DSH) 插件生态打造的现代化桌面端解决方案。万物皆「插件」，桌面本身也是「插件」。",
+      "full_name": "anywhere-labs/dsh-desktop",
+      "html_url": "https://github.com/anywhere-labs/dsh-desktop",
+      "language": "TypeScript",
+      "color": "#3178c6"
+    },
     {
       "description": "跨设备的开源Agent工作台",
       "full_name": "anywhere-labs/Agents-Anywhere",
