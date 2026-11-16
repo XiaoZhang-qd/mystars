@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-11-15 03:15 UTC",
+  "update_time": "2026-11-16 03:17 UTC",
   "repos": [
     {
       "description": "CVE-2026-112611: OOB Write in CoreGraphics (PDF ShadingType 5) via /N and /C0 array mismatch. Causes heap overflow (DoS). The Python PoC generates the malicious PDF, while the C-code uses a SIGSEGV handler to map the faulting memory and confirm the write primitive.",
