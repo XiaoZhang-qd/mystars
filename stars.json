@@ -1,6 +1,13 @@
 {
-  "update_time": "2026-11-17 05:18 UTC",
+  "update_time": "2026-11-18 04:45 UTC",
   "repos": [
+    {
+      "description": null,
+      "full_name": "marksvia/CVE-2026-112611-oob",
+      "html_url": "https://github.com/marksvia/CVE-2026-112611-oob",
+      "language": "Objective-C",
+      "color": "#438eff"
+    },
     {
       "description": "CVE-2026-112611: OOB Write in CoreGraphics (PDF ShadingType 5) via /N and /C0 array mismatch. Causes heap overflow (DoS). The Python PoC generates the malicious PDF, while the C-code uses a SIGSEGV handler to map the faulting memory and confirm the write primitive.",
       "full_name": "Rust505/CVE-2026-112611",
@@ -19,8 +26,8 @@
       "description": "跨设备的开源Agent工作台",
       "full_name": "anywhere-labs/Agents-Anywhere",
       "html_url": "https://github.com/anywhere-labs/Agents-Anywhere",
-      "language": "TypeScript",
-      "color": "#3178c6"
+      "language": "Python",
+      "color": "#3572A5"
     },
     {
       "description": "Let AI agents see and drive your own React Native app on a test phone, from inside the app.",
@@ -2777,8 +2784,8 @@
       "description": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience",
       "full_name": "clash-verge-rev/clash-verge-rev",
       "html_url": "https://github.com/clash-verge-rev/clash-verge-rev",
-      "language": "Rust",
-      "color": "#dea584"
+      "language": "TypeScript",
+      "color": "#3178c6"
     },
     {
       "description": null,
