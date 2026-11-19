@@ -1,6 +1,20 @@
 {
-  "update_time": "2026-11-18 04:45 UTC",
+  "update_time": "2026-11-19 04:37 UTC",
   "repos": [
+    {
+      "description": "小米 Bootloader 解锁模拟器",
+      "full_name": "PolarisSdesu/BLEmulator",
+      "html_url": "https://github.com/PolarisSdesu/BLEmulator",
+      "language": "Kotlin",
+      "color": "#A97BFF"
+    },
+    {
+      "description": "基于内核漏洞CVE-2026-43499的本地提权适配，集成嵌入式 KernelSU.CVE-2026-43499+KernelSU越狱模式 ",
+      "full_name": "woshimaniubi8/CVE-2026-43499-root-KernelSU",
+      "html_url": "https://github.com/woshimaniubi8/CVE-2026-43499-root-KernelSU",
+      "language": "C",
+      "color": "#555555"
+    },
     {
       "description": null,
       "full_name": "marksvia/CVE-2026-112611-oob",
@@ -514,8 +528,8 @@
     },
     {
       "description": "Independent iOS client for Lody — native chat, sessions, and coding-agent collaboration on iPhone",
-      "full_name": "innei-dev/lody-ios",
-      "html_url": "https://github.com/innei-dev/lody-ios",
+      "full_name": "LodyAI/lody-ios",
+      "html_url": "https://github.com/LodyAI/lody-ios",
       "language": "Swift",
       "color": "#F05138"
     },
@@ -528,8 +542,8 @@
     },
     {
       "description": "Deploy Xcode-built apps beyond the local network — install signed iOS apps from macOS to a paired iPhone over Tailscale, including across Wi-Fi-to-5G roaming.",
-      "full_name": "lyo-zjz/ios-ota",
-      "html_url": "https://github.com/lyo-zjz/ios-ota",
+      "full_name": "lyo-zjz/iOSOTA",
+      "html_url": "https://github.com/lyo-zjz/iOSOTA",
       "language": "Go",
       "color": "#00ADD8"
     },
@@ -2067,7 +2081,7 @@
       "color": "#555555"
     },
     {
-      "description": "🧠 Train a 64M-parameter LLM from scratch in just 2h!",
+      "description": "🧠 两小时从 0 训出你的 64M 大模型。Train your own 64M LLM from scratch in 2 hours.",
       "full_name": "jingyaogong/minimind",
       "html_url": "https://github.com/jingyaogong/minimind",
       "language": "Python",
@@ -2784,8 +2798,8 @@
       "description": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience",
       "full_name": "clash-verge-rev/clash-verge-rev",
       "html_url": "https://github.com/clash-verge-rev/clash-verge-rev",
-      "language": "TypeScript",
-      "color": "#3178c6"
+      "language": "Rust",
+      "color": "#dea584"
     },
     {
       "description": null,
