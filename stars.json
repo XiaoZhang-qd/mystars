@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-11-19 04:37 UTC",
+  "update_time": "2026-11-20 04:27 UTC",
   "repos": [
     {
       "description": "小米 Bootloader 解锁模拟器",
@@ -65,9 +65,9 @@
       "color": "#dea584"
     },
     {
-      "description": "MCP server for remote iPhone control — tap, swipe, type, screenshot via AI",
-      "full_name": "Qizhan7/wda-mcp",
-      "html_url": "https://github.com/Qizhan7/wda-mcp",
+      "description": "Let AI use a real iPhone: tap, swipe, type, read the screen. Works over WiFi or from anywhere with Tailscale; set up with a Mac or just a Windows PC. An MCP server on top of WebDriverAgent. Formerly wda-mcp.",
+      "full_name": "Qizhan7/wda-iphone-use",
+      "html_url": "https://github.com/Qizhan7/wda-iphone-use",
       "language": "Python",
       "color": "#3572A5"
     },
@@ -121,7 +121,7 @@
       "color": "#3178c6"
     },
     {
-      "description": "Poki uses your iPhone like you do. An open-source agent that sees your screen and taps, types, and swipes across any app on your real device. Runs locally, plugs right into Claude Code and any MCP agent.",
+      "description": "Poki uses your iPhone like you do. An open-source agent app that runs on your iPhone, reads the screen, and taps, types and swipes in real apps with your own model account.",
       "full_name": "JosssphZhou/poki",
       "html_url": "https://github.com/JosssphZhou/poki",
       "language": "Swift",
@@ -542,8 +542,8 @@
     },
     {
       "description": "Deploy Xcode-built apps beyond the local network — install signed iOS apps from macOS to a paired iPhone over Tailscale, including across Wi-Fi-to-5G roaming.",
-      "full_name": "lyo-zjz/iOSOTA",
-      "html_url": "https://github.com/lyo-zjz/iOSOTA",
+      "full_name": "lyo-zjz/iOS-OTA",
+      "html_url": "https://github.com/lyo-zjz/iOS-OTA",
       "language": "Go",
       "color": "#00ADD8"
     },
