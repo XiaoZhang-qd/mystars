@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-11-20 04:27 UTC",
+  "update_time": "2026-11-21 04:21 UTC",
   "repos": [
     {
       "description": "小米 Bootloader 解锁模拟器",
@@ -1662,8 +1662,8 @@
     },
     {
       "description": "Open-source AI video localization and dubbing for YouTube/Bilibili: speech recognition, subtitle translation, voice cloning, audio mixing and rendering. 开源 AI 视频翻译配音工具。",
-      "full_name": "liuzhao1225/YouDub-webui",
-      "html_url": "https://github.com/liuzhao1225/YouDub-webui",
+      "full_name": "liuzhao1225/YouDub-Desktop",
+      "html_url": "https://github.com/liuzhao1225/YouDub-Desktop",
       "language": "TypeScript",
       "color": "#3178c6"
     },
@@ -2798,8 +2798,8 @@
       "description": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience",
       "full_name": "clash-verge-rev/clash-verge-rev",
       "html_url": "https://github.com/clash-verge-rev/clash-verge-rev",
-      "language": "Rust",
-      "color": "#dea584"
+      "language": "TypeScript",
+      "color": "#3178c6"
     },
     {
       "description": null,
