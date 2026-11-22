@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-11-21 04:21 UTC",
+  "update_time": "2026-11-22 03:35 UTC",
   "repos": [
     {
       "description": "小米 Bootloader 解锁模拟器",
@@ -40,8 +40,8 @@
       "description": "跨设备的开源Agent工作台",
       "full_name": "anywhere-labs/Agents-Anywhere",
       "html_url": "https://github.com/anywhere-labs/Agents-Anywhere",
-      "language": "Python",
-      "color": "#3572A5"
+      "language": "TypeScript",
+      "color": "#3178c6"
     },
     {
       "description": "Let AI agents see and drive your own React Native app on a test phone, from inside the app.",
