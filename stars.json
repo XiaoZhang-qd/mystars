@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-11-22 03:35 UTC",
+  "update_time": "2026-11-23 04:08 UTC",
   "repos": [
     {
       "description": "小米 Bootloader 解锁模拟器",
@@ -40,8 +40,8 @@
       "description": "跨设备的开源Agent工作台",
       "full_name": "anywhere-labs/Agents-Anywhere",
       "html_url": "https://github.com/anywhere-labs/Agents-Anywhere",
-      "language": "TypeScript",
-      "color": "#3178c6"
+      "language": "Python",
+      "color": "#3572A5"
     },
     {
       "description": "Let AI agents see and drive your own React Native app on a test phone, from inside the app.",
@@ -1508,8 +1508,8 @@
     },
     {
       "description": "CVE-2026-8461",
-      "full_name": "ashrafzaryouh/CVE-2026-8461",
-      "html_url": "https://github.com/ashrafzaryouh/CVE-2026-8461",
+      "full_name": "0xBlackash/CVE-2026-8461",
+      "html_url": "https://github.com/0xBlackash/CVE-2026-8461",
       "language": "Python",
       "color": "#3572A5"
     },
@@ -2798,8 +2798,8 @@
       "description": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience",
       "full_name": "clash-verge-rev/clash-verge-rev",
       "html_url": "https://github.com/clash-verge-rev/clash-verge-rev",
-      "language": "TypeScript",
-      "color": "#3178c6"
+      "language": "Rust",
+      "color": "#dea584"
     },
     {
       "description": null,
