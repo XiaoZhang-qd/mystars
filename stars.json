@@ -1,6 +1,20 @@
 {
-  "update_time": "2026-11-23 04:08 UTC",
+  "update_time": "2026-11-24 07:09 UTC",
   "repos": [
+    {
+      "description": "An AI-friendly iOS/iPadOS automation testing tool built on XCUITest, but more than a testing tool: agents like Codex, Claude Code, Hermes, OpenClaw and Minis can operate your iPhone or iPad wirelessly through an encrypted JSON-RPC 2.0 API (tap, type, read the screen, launch apps, and more).",
+      "full_name": "OpenMinis/iCTRL",
+      "html_url": "https://github.com/OpenMinis/iCTRL",
+      "language": "Swift",
+      "color": "#F05138"
+    },
+    {
+      "description": "Cloudflare Tunnel client",
+      "full_name": "cloudflare/cloudflared",
+      "html_url": "https://github.com/cloudflare/cloudflared",
+      "language": "Go",
+      "color": "#00ADD8"
+    },
     {
       "description": "小米 Bootloader 解锁模拟器",
       "full_name": "PolarisSdesu/BLEmulator",
@@ -40,8 +54,8 @@
       "description": "跨设备的开源Agent工作台",
       "full_name": "anywhere-labs/Agents-Anywhere",
       "html_url": "https://github.com/anywhere-labs/Agents-Anywhere",
-      "language": "Python",
-      "color": "#3572A5"
+      "language": "TypeScript",
+      "color": "#3178c6"
     },
     {
       "description": "Let AI agents see and drive your own React Native app on a test phone, from inside the app.",
@@ -1508,8 +1522,8 @@
     },
     {
       "description": "CVE-2026-8461",
-      "full_name": "0xBlackash/CVE-2026-8461",
-      "html_url": "https://github.com/0xBlackash/CVE-2026-8461",
+      "full_name": "ashrafzaryouh/CVE-2026-8461",
+      "html_url": "https://github.com/ashrafzaryouh/CVE-2026-8461",
       "language": "Python",
       "color": "#3572A5"
     },
@@ -1669,8 +1683,8 @@
     },
     {
       "description": "1 min voice data can also be used to train a good TTS model! (few shot voice cloning)",
-      "full_name": "RVC-Boss/GPT-SoVITS",
-      "html_url": "https://github.com/RVC-Boss/GPT-SoVITS",
+      "full_name": "bilibili/GPT-SoVITS",
+      "html_url": "https://github.com/bilibili/GPT-SoVITS",
       "language": "Python",
       "color": "#3572A5"
     },
@@ -2798,8 +2812,8 @@
       "description": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience",
       "full_name": "clash-verge-rev/clash-verge-rev",
       "html_url": "https://github.com/clash-verge-rev/clash-verge-rev",
-      "language": "Rust",
-      "color": "#dea584"
+      "language": "TypeScript",
+      "color": "#3178c6"
     },
     {
       "description": null,
