@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-11-24 07:09 UTC",
+  "update_time": "2026-11-25 05:43 UTC",
   "repos": [
     {
       "description": "An AI-friendly iOS/iPadOS automation testing tool built on XCUITest, but more than a testing tool: agents like Codex, Claude Code, Hermes, OpenClaw and Minis can operate your iPhone or iPad wirelessly through an encrypted JSON-RPC 2.0 API (tap, type, read the screen, launch apps, and more).",
@@ -212,7 +212,7 @@
       "color": "#f1e05a"
     },
     {
-      "description": "An iOS jailbreak tweak that hardens vulnerable devices against WebKit RCE and iMessage zero-click exploits like Coruna, DarkSword and BLASTPASS",
+      "description": "An iOS jailbreak tweak that hardens vulnerable devices against WebKit RCE and iMessage zero-click exploits.",
       "full_name": "EolnMsuk/AntiDarkSword",
       "html_url": "https://github.com/EolnMsuk/AntiDarkSword",
       "language": "Objective-C",
