@@ -1,6 +1,41 @@
 {
-  "update_time": "2026-11-25 05:43 UTC",
+  "update_time": "2026-11-26 05:33 UTC",
   "repos": [
+    {
+      "description": "Do-It-All Mechanical Macropad",
+      "full_name": "dekuNukem/duckyPad",
+      "html_url": "https://github.com/dekuNukem/duckyPad",
+      "language": "C",
+      "color": "#555555"
+    },
+    {
+      "description": "Wireless BLE HID injection tool for ESP32. Execute DuckyScript payloads over Bluetooth LE via WiFi Web UI. Features BLE scanning, device cloning, and persistent script storage.",
+      "full_name": "7wp81x/DuckESP",
+      "html_url": "https://github.com/7wp81x/DuckESP",
+      "language": "C++",
+      "color": "#f34b7d"
+    },
+    {
+      "description": "Open source USB rubber ducky, from Arduino Micro to ESP32-S3",
+      "full_name": "cifertech/EvilDuck",
+      "html_url": "https://github.com/cifertech/EvilDuck",
+      "language": "C++",
+      "color": "#f34b7d"
+    },
+    {
+      "description": "01Studio MicroPython Drone (ESP32-S3)",
+      "full_name": "01studio-lab/pyDrone",
+      "html_url": "https://github.com/01studio-lab/pyDrone",
+      "language": null,
+      "color": "#cccccc"
+    },
+    {
+      "description": "Android 17 running inside an iOS app, without JIT: Android rebuilt and translated ahead of time, on a Linux kernel layer written for the app.",
+      "full_name": "atomsprout/nestvane",
+      "html_url": "https://github.com/atomsprout/nestvane",
+      "language": "C++",
+      "color": "#f34b7d"
+    },
     {
       "description": "An AI-friendly iOS/iPadOS automation testing tool built on XCUITest, but more than a testing tool: agents like Codex, Claude Code, Hermes, OpenClaw and Minis can operate your iPhone or iPad wirelessly through an encrypted JSON-RPC 2.0 API (tap, type, read the screen, launch apps, and more).",
       "full_name": "OpenMinis/iCTRL",
