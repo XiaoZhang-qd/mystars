@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-11-26 05:33 UTC",
+  "update_time": "2026-11-27 05:28 UTC",
   "repos": [
     {
       "description": "Do-It-All Mechanical Macropad",
@@ -856,7 +856,7 @@
       "color": "#e34c26"
     },
     {
-      "description": "Curated AltStore sources for IPA projects on GitHub | 精选 AltStore 软件源：汇聚 GitHub 优质 IPA 开源项目",
+      "description": "Curated AltStore sources for open-source iOS apps on GitHub | 精选 AltStore 软件源：汇聚 GitHub 上的开源 iOS 应用",
       "full_name": "bebound/AltGallery",
       "html_url": "https://github.com/bebound/AltGallery",
       "language": "Python",
@@ -2739,7 +2739,7 @@
       "color": "#cccccc"
     },
     {
-      "description": "AI Chatbots in terminal for free",
+      "description": "AI in your terminal for free",
       "full_name": "aandrew-me/tgpt",
       "html_url": "https://github.com/aandrew-me/tgpt",
       "language": "Go",
