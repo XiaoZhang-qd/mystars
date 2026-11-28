@@ -1,6 +1,13 @@
 {
-  "update_time": "2026-11-27 05:28 UTC",
+  "update_time": "2026-11-28 05:03 UTC",
   "repos": [
+    {
+      "description": "the ultimate vocal synthesizer - sing, speak, beatbox, and more",
+      "full_name": "jamesondh/chimera-vocal-synth",
+      "html_url": "https://github.com/jamesondh/chimera-vocal-synth",
+      "language": "Rust",
+      "color": "#dea584"
+    },
     {
       "description": "Do-It-All Mechanical Macropad",
       "full_name": "dekuNukem/duckyPad",
@@ -1935,8 +1942,8 @@
     },
     {
       "description": "A multi-platform proxy client based on ClashMeta,simple and easy to use, open-source and ad-free.",
-      "full_name": "chen08209/FlClash",
-      "html_url": "https://github.com/chen08209/FlClash",
+      "full_name": "Vialibrex/FlClash",
+      "html_url": "https://github.com/Vialibrex/FlClash",
       "language": "Dart",
       "color": "#00B4AB"
     },
@@ -2466,7 +2473,7 @@
       "color": "#89e051"
     },
     {
-      "description": "🙃   A delightful community-driven (with 2,500+ contributors) framework for managing your zsh configuration. Includes 300+ optional plugins (rails, git, macOS, hub, docker, homebrew, node, php, python, etc), 140+ themes to spice up your morning, and an auto-update tool that makes it easy to keep up with the latest updates from the community.",
+      "description": "🙃   A delightful community-driven (with 2,600+ contributors) framework for managing your zsh configuration. Includes 300+ optional plugins (rails, git, macOS, hub, docker, homebrew, node, php, python, etc), 140+ themes to spice up your morning, and an auto-update tool that makes it easy to keep up with the latest updates from the community.",
       "full_name": "ohmyzsh/ohmyzsh",
       "html_url": "https://github.com/ohmyzsh/ohmyzsh",
       "language": "Shell",
